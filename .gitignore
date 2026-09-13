@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# vscode file
+.vscode
+
 # C extensions
 *.so
 
