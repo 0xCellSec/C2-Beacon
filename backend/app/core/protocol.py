@@ -18,10 +18,22 @@ class Message(BaseModel):
     payload: dict[str, Any]
 
 def pack_json(message: Message, key: str) -> str:
+    """ encodes data in json format then encrypts the data
+    
+    Parameters: 
+    message (str): the data to be packed
+    key (str): the key that encrypts the data
+    """
     raw_json = message.model_dump_json()
     return encode(raw_json, key)
 
 def unpack_json(raw: str, key: str) -> str:
+    """ encodes data in json format then encrypts the data
+        
+    Parameters: 
+    message (str): the data to be unpacked
+    key (str): the key that decrypts the data
+    """
     try:
         decoded_json = decode(raw, key)
         data = json.loads(decoded_json)
