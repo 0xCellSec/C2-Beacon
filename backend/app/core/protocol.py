@@ -4,7 +4,7 @@ from enum import StrEnum
 from typing import Any
 from pydantic import BaseModel, ValidationError
 
-from encoding import decode, encode
+from . import encoding
 
 class MessageType(StrEnum):
     REGISTER = "REGISTER"
@@ -25,9 +25,9 @@ def pack_json(message: Message, key: str) -> str:
     key (str): the key that encrypts the data
     """
     raw_json = message.model_dump_json()
-    return encode(raw_json, key)
+    return encoding.encode(raw_json, key)
 
-def unpack_json(raw: str, key: str) -> str:
+def unpack_json(raw: str, key: str) -> Message:
     """ Decrypts the data into json then decods the json into a string
         
     Parameters: 
@@ -35,7 +35,7 @@ def unpack_json(raw: str, key: str) -> str:
     key (str): the key that decrypts the data
     """
     try:
-        decoded_json = decode(raw, key)
+        decoded_json = encoding.decode(raw, key)
         data = json.loads(decoded_json)
         return Message.model_validate(data)
     
