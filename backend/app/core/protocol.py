@@ -28,7 +28,7 @@ def pack_json(message: Message, key: str) -> str:
     return encode(raw_json, key)
 
 def unpack_json(raw: str, key: str) -> str:
-    """ encodes data in json format then encrypts the data
+    """ Decrypts the data into json then decods the json into a string
         
     Parameters: 
     message (str): the data to be unpacked
