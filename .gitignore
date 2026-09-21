@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# project files
+*.db
+
 # vscode file
 .vscode
 
