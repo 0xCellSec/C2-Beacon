@@ -10,6 +10,7 @@ class CommandType(StrEnum):
 
 class BeaconMeta(BaseModel):
     # metadata fields of the target/beacon machine 
+    beacon_id: str
     os: str
     hostname: str
     username: str 
