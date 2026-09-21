@@ -10,8 +10,13 @@ class BeaconRegistry:
     def __init__(self) -> None:
         self._connections: dict[str, WebSocket] = {}
 
-
-    async def register(self,id: str, meta: BeaconMeta, database: aiosqlite.Connection, websocket: WebSocket) -> None: 
+    async def register(
+        self,
+        id: str,
+        meta: BeaconMeta,
+        database: aiosqlite.Connection,
+        websocket: WebSocket,
+    ) -> None:
         await websocket.accept()
         print("Beacon Found!")
 
@@ -32,7 +37,31 @@ class BeaconRegistry:
                 internal_ip = excluded.internal_ip,
                 last_seen = excluded.last_seen
             """,
-            (id, meta.hostname, meta.os, meta.username, meta.pid, meta.intenral_ip, now, now)
+            (
+                id,
+                meta.hostname,
+                meta.os,
+                meta.username,
+                meta.pid,
+                meta.intenral_ip,
+                now,
+                now,
+            ),
         )
 
         await database.commit()
+
+    async def unregister(self, id: str, database: aiosqlite.Connection) -> None:
+        # remove log from memory
+        self._connections.pop(id, None)
+        now = datetime.now(UTC).isoformat()
+
+        await database.execute(
+            """
+            UPDATE beacon SET last_seen = ? WHERE id = ? 
+            """,
+            (now, id),
+        )
+
+        await database.commit()
+
