@@ -15,7 +15,7 @@ class BeaconMeta(BaseModel):
     hostname: str
     username: str 
     pid: int 
-    intenral_ip: str 
+    internal_ip: str 
 
 class BeaconLog(BeaconMeta):
     # tracking fields for the beacon
