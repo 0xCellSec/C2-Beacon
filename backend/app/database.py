@@ -1,8 +1,9 @@
 import aiosqlite
 from collections.abc import AsyncIterator
+from app.core.settings import Config
 
 
-DATABASE_PATH = "infra/database.db"
+DATABASE_PATH = Config.database_file_path
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS beacons (
