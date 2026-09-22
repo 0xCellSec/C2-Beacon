@@ -13,7 +13,7 @@ from . import database
 async def recieve_data(websocket: WebSocket, database: database) -> None:
     Beacon = BeaconRegistry()
     while True: 
-        raw_data = websocket.receive_text()
+        raw_data = await websocket.receive_text()
 
         data = unpack_json(raw_data, Config.encryption_key)
 
