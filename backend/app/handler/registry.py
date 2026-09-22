@@ -12,11 +12,17 @@ class BeaconRegistry:
 
     async def register(
         self,
-        id: str,
         meta: BeaconMeta,
         database: aiosqlite.Connection,
         websocket: WebSocket,
     ) -> None:
+        """ logs a beacon into the database serverside
+
+        Parameter: 
+        meta (BeaconMeta): this is the metadata struct of the beacon that will be logged
+        database (aiosqlite.Connection): the database that the beacon will be logged to
+        websocket (websocket): the websocket the beacon sends the data through 
+        """
         await websocket.accept()
         print("Beacon Found!")
 
