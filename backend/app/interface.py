@@ -1,3 +1,5 @@
+from app.core.settings import Config
+
 from fastapi import WebSocket, APIRouter
 import uuid
 
@@ -10,8 +12,9 @@ async def recieve_data(websocket: WebSocket, registry: BeaconRegistry, database:
     while True: 
         raw_data = websocket.receive_text()
 
-        data = unpack_json(raw_data, "secret")
-       
+        data = unpack_json(raw_data, Config.encryption_key)
+
+        validated_beacon_meta = BeaconMeta.model_validate(data.payload)
         # Message type checking 
         if data.type == MessageType.REGISTER:
             registry.register(data.payload, database, websocket)
