@@ -34,7 +34,7 @@ class BeaconRegistry:
         await database.execute(
             """
             INSERT INTO beacons (id, hostname, os, username, pid, internal_ip, first_seen, last_seen)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(id) DO UPDATE SET
                 hostname = excluded.hostname,
                 os = excluded.os,
@@ -49,7 +49,7 @@ class BeaconRegistry:
                 meta.os,
                 meta.username,
                 meta.pid,
-                meta.intenral_ip,
+                meta.internal_ip,
                 now,
                 now,
             ),
