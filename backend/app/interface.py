@@ -3,8 +3,10 @@ from app.core.settings import Config
 from fastapi import WebSocket, APIRouter
 import uuid
 
-from core.protocol import pack_json, unpack_json, MessageType
-from handler.registry import BeaconRegistry
+
+from app.core.protocol import pack_json, unpack_json, MessageType
+from app.handler.registry import BeaconRegistry 
+from app.core.models import BeaconMeta
 from . import database
 
 
