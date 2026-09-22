@@ -3,7 +3,7 @@ from fastapi import WebSocket
 
 import aiosqlite
 
-from app.core.models import BeaconMeta, BeaconRecord
+from app.core.models import BeaconMeta, BeaconLog
 
 
 class BeaconRegistry:
