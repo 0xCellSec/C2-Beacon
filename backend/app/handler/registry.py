@@ -33,9 +33,9 @@ class BeaconRegistry:
         # keep a stored beacon log
         await database.execute(
             """
-            INSERT INTO beacons (id, hostname, os, username, pid, internal_ip, first_seen, last_seen)
+            INSERT INTO beacons (beacon_id, hostname, os, username, pid, internal_ip, first_seen, last_seen)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(id) DO UPDATE SET
+            ON CONFLICT(beacon_id) DO UPDATE SET
                 hostname = excluded.hostname,
                 os = excluded.os,
                 username = excluded.username,
@@ -44,7 +44,7 @@ class BeaconRegistry:
                 last_seen = excluded.last_seen
             """,
             (
-                id,
+                meta.beacon_id,
                 meta.hostname,
                 meta.os,
                 meta.username,
