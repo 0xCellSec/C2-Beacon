@@ -18,8 +18,6 @@ CREATE TABLE IF NOT EXISTS beacons (
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
-    beacon_id           TEXT PRIMARY KEY,
-    beacon_id    TEXT NOT NULL,
     command      TEXT NOT NULL,
     args         TEXT,
     status       TEXT NOT NULL DEFAULT 'pending',
@@ -29,7 +27,6 @@ CREATE TABLE IF NOT EXISTS tasks (
 );
 
 CREATE TABLE IF NOT EXISTS task_results (
-    beacon_id         TEXT PRIMARY KEY,
     task_id    TEXT NOT NULL UNIQUE,
     output     TEXT,
     error      TEXT,
