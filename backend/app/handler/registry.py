@@ -12,6 +12,7 @@ class BeaconRegistry:
 
     async def register(
         self,
+        beacon_id: str,
         meta: BeaconMeta,
         database: aiosqlite.Connection,
         websocket: WebSocket,
@@ -23,11 +24,12 @@ class BeaconRegistry:
         database (aiosqlite.Connection): the database that the beacon will be logged to
         websocket (websocket): the websocket the beacon sends the data through 
         """
+
         await websocket.accept()
         print("Beacon Found!")
 
         # keep a memory websocket log
-        self._connections[id] = websocket
+        self._connections[beacon_id] = websocket
         now = datetime.now(UTC).isoformat()
 
         # keep a stored beacon log
@@ -44,7 +46,7 @@ class BeaconRegistry:
                 last_seen = excluded.last_seen
             """,
             (
-                meta.beacon_id,
+                beacon_id,
                 meta.hostname,
                 meta.os,
                 meta.username,
