@@ -18,12 +18,13 @@ CREATE TABLE IF NOT EXISTS beacons (
 );
 
 CREATE TABLE IF NOT EXISTS tasks (
+    task_id      TEXT NOT NULL UNIQUE,
     command      TEXT NOT NULL,
     args         TEXT,
     status       TEXT NOT NULL DEFAULT 'pending',
     created_at   TEXT NOT NULL,
     completed_at TEXT,
-    FOREIGN KEY (beacon_id) REFERENCES beacons(id)
+    FOREIGN KEY (task_id) REFERENCES beacons(id)
 );
 
 CREATE TABLE IF NOT EXISTS task_results (
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS task_results (
     output     TEXT,
     error      TEXT,
     created_at TEXT NOT NULL,
-    FOREIGN KEY (task_id) REFERENCES tasks(id)
+    FOREIGN KEY (task_id) REFERENCES tasks(task_id)
 );
 """
 
