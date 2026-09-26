@@ -7,21 +7,34 @@ from app.core import encoding
 from app.core.settings import Config
 
 # importing pythin lib
-import uuid
 import json
-
+import os # this is the library the beacon will use to find the hardware/ip data
+import socket # netowrking library to find ip
 
 class FakeWebSocket():
     async def accept(self):
         pass
 
-    async def receive_text(self):
-        
-        fake_beacon_message = json.dumps({'type': 'REGISTER', 
-                                        'payload':{'beacon_id' :str(uuid.uuid4()), 'os':'Linux', 'hostname':'OS_HOSTNAME', 'username':'OS_USERNAM', 
-                                        'pid':34829, 
-                                        'internal_ip':'127.0.0.1'}})
+    def get_priv_ip(self) -> str:
+        host = socket.gethostname()
+        private_ip = socket.gethostbyname(host)
 
+        return str(private_ip)
+
+    async def receive_text(self) -> encoding.encode:
+
+        # get host data
+        operating = os.uname()
+        host_pid = int(os.getpid())
+        host_username = str(os.getlogin())
+        private_ip = self.get_priv_ip()
+
+        # craft beacon message
+        fake_beacon_message = json.dumps({'type': 'REGISTER', 
+                                        'payload':{'os':str(operating.sysname), 'hostname':str(operating.nodename), 'username': host_username, 
+                                        'pid': host_pid, 
+                                        'internal_ip': private_ip}})
+        
         return encoding.encode(fake_beacon_message, Config.encryption_key)
 
 async def test_registry():
