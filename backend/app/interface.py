@@ -12,7 +12,6 @@ from . import database
 
 async def recieve_data(websocket: WebSocket, database: database) -> None:
     Beacon = BeaconRegistry()
-    beacon_id = str(uuid.uuid4())
     while True: 
         raw_data = await websocket.receive_text()
 
@@ -21,7 +20,7 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
         validated_beacon_meta = BeaconMeta.model_validate(data.payload)
         # Message type checking 
         if data.type == MessageType.REGISTER:
-            await Beacon.register(beacon_id, validated_beacon_meta, database, websocket)
+            await Beacon.register(validated_beacon_meta, database, websocket)
 
         
 
