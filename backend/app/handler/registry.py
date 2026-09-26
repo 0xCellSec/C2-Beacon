@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 from fastapi import WebSocket
 
 import aiosqlite
+import uuid
 
 from app.core.models import BeaconMeta, BeaconLog
 
@@ -12,7 +13,6 @@ class BeaconRegistry:
 
     async def register(
         self,
-        beacon_id: str,
         meta: BeaconMeta,
         database: aiosqlite.Connection,
         websocket: WebSocket,
@@ -28,6 +28,10 @@ class BeaconRegistry:
         await websocket.accept()
         print("Beacon Found!")
 
+        salt = uuid.UUID('92d29f16-0aa7-4b89-bfe8-e27789ec3183')
+        fingerprint = f"{meta.hostname}-{meta.username}"
+        beacon_id = str(uuid.uuid5(salt, fingerprint))
+        
         # keep a memory websocket log
         self._connections[beacon_id] = websocket
         now = datetime.now(UTC).isoformat()
