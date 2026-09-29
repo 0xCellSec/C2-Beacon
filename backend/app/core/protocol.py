@@ -7,11 +7,11 @@ from pydantic import BaseModel, ValidationError
 from . import encoding
 
 class MessageType(StrEnum):
-    REGISTER = "REGISTER"
-    HEARTBEAT = "HEARTBEAT"
-    TASK = "TASK"
-    RESULT = "RESULT"
-    ERROR = "ERROR"
+    REGISTER = "REGISTER" # beacon -> server : sends metadata
+    HEARTBEAT = "HEARTBEAT" # beacon -> server : shows its still connected 
+    TASK = "TASK" # server -> beacon : gives task to execute
+    RESULT = "RESULT" # beacon -> server : result of the completed task
+    ERROR = "ERROR" # server <-> beacon : displays issue between the server and beacon
 
 class Message(BaseModel):
     type: MessageType
