@@ -1,5 +1,6 @@
 # C2-Beacon
 
 ## what is it?
-Its a toy command and control beacon without any realisticly usable evasive or encoding systems. 
-At the most it will use real world formulas and tactics but scaled down for learning purposes
+C2-Beacon is a minimal python-based, cybersecurity tool to recreate the basic functions and architecture of a command-and-control beacon.
+
+
