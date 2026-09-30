@@ -16,7 +16,7 @@ class BeaconMeta(BaseModel):
     pid: int 
     internal_ip: str 
 
-class BeaconLog(BeaconMeta):
+class BeaconLog(BaseModel):
     # tracking fields for the beacon
     agent_id: str
     first_seen: str
