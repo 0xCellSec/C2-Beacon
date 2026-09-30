@@ -28,9 +28,7 @@ class BeaconRegistry:
         await websocket.accept()
         print("Beacon Found!")
 
-        salt = uuid.UUID('92d29f16-0aa7-4b89-bfe8-e27789ec3183')
-        fingerprint = f"{meta.hostname}-{meta.username}"
-        beacon_id = str(uuid.uuid5(salt, fingerprint))
+        beacon_id = str(uuid.uuid4)
         
         # keep a memory websocket log
         self._connections[beacon_id] = websocket
