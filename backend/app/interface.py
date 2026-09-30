@@ -1,17 +1,16 @@
+from fastapi import WebSocket
+
 from app.core.settings import Config
-
-from fastapi import WebSocket, APIRouter
-import uuid
-
-
 from app.core.protocol import pack_json, unpack_json, MessageType
 from app.handler.registry import BeaconRegistry 
-from app.core.models import BeaconMeta
+from app.handler.heartbeat import BeaconHeartbeat
+from app.core.models import BeaconMeta, BeaconLog
 from . import database
 
 
 async def recieve_data(websocket: WebSocket, database: database) -> None:
-    Beacon = BeaconRegistry()
+    registry = BeaconRegistry()
+    heartbeat = BeaconHeartbeat()
     while True: 
         raw_data = await websocket.receive_text()
 
