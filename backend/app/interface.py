@@ -20,6 +20,10 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
         if data.type == MessageType.REGISTER: 
             validated_beacon_model = BeaconMeta.model_validate(data.payload)
             await registry.register(validated_beacon_model, database, websocket)
+
+        elif data.type == MessageType.HEARTBEAT:
+            validated_beacon_model = BeaconLog.model_validate(data.payload)
+            await heartbeat.record_heartbeat(validated_beacon_model, database)
         
 
 
