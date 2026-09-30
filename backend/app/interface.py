@@ -16,11 +16,10 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
 
         data = unpack_json(raw_data, Config.encryption_key)
 
-        validated_beacon_meta = BeaconMeta.model_validate(data.payload)
         # Message type checking 
-        if data.type == MessageType.REGISTER:
-            await Beacon.register(validated_beacon_meta, database, websocket)
-
+        if data.type == MessageType.REGISTER: 
+            validated_beacon_model = BeaconMeta.model_validate(data.payload)
+            await registry.register(validated_beacon_model, database, websocket)
         
 
 
