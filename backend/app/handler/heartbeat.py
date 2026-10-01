@@ -19,13 +19,13 @@ class BeaconHeartbeat:
 
 
         await database.execute(
-                    """
-                    UPDATE beacons 
-                    SET last_seen  = ?
-                    WHERE beacon_id = ? 
-                    """,
-                    (
-                        current_time,
-                        beacon_id
-                    ))
+            """
+            UPDATE beacons 
+            SET last_seen  = ?
+            WHERE beacon_id = ? 
+            """,
+            (
+                current_time,
+                beacon_id
+            ))
         await database.commit()
