@@ -28,7 +28,7 @@ class BeaconRegistry:
         await websocket.accept()
         print("Beacon Found!")
 
-        beacon_id = str(uuid.uuid4)
+        beacon_id = str(uuid.uuid4())
         
         # keep a memory websocket log
         self._connections[beacon_id] = websocket
