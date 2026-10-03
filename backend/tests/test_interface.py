@@ -12,10 +12,24 @@ import os # this is the library the beacon will use to find the hardware/ip data
 import socket # netowrking library to find ip
 
 class FakeWebSocket():
+    def __init__(self, messages: list[str]):
+        self.messages = messages
+        self.sent_messages = []
+    
     async def accept(self):
         pass
 
-    def get_priv_ip(self) -> str:
+    async def receive_text(self):
+        return(self.messages.pop(0))
+
+    def send_text(self, text: str):
+        self.sent_messages.append(text)
+         
+    def send_json(data: dict):
+        pass
+         
+
+def get_priv_ip() -> str:
         host = socket.gethostname()
         private_ip = socket.gethostbyname(host)
 
