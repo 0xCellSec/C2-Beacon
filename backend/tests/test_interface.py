@@ -35,28 +35,31 @@ def get_priv_ip() -> str:
 
         return str(private_ip)
 
-    async def receive_text(self) -> encoding.encode:
-
-        # get host data
-        operating = os.uname()
-        host_pid = int(os.getpid())
-        host_username = str(os.getlogin())
-        private_ip = self.get_priv_ip()
-
-        # craft beacon message
-        fake_beacon_message = json.dumps({'type': 'REGISTER', 
-                                        'payload':{'os':str(operating.sysname), 'hostname':str(operating.nodename), 'username': host_username, 
-                                        'pid': host_pid, 
-                                        'internal_ip': private_ip}})
-        
-        return encoding.encode(fake_beacon_message, Config.encryption_key)
 
 async def test_registry():
-    fake_ws = FakeWebSocket()
     
-    async with aiosqlite.connect(Config.database_file_path) as db:
-        await db.executescript(database.SCHEMA)
-        await db.commit()
+    # get host data
+    operating = os.uname()
+    host_pid = int(os.getpid())
+    host_username = str(os.getlogin())
+    private_ip = get_priv_ip()
+
+    # craft beacon message
+    register_message = encoding.encode(json.dumps({'type': 'REGISTER', 
+                                        'payload':{'os':str(operating.sysname), 
+                                                    'hostname':str(operating.nodename), 
+                                                    'username': host_username, 
+                                                    'pid': host_pid, 
+                                                    'internal_ip': private_ip}
+                                                    }), Config.encryption_key)
+    
+    messages = [register_message]
+
+    fake_ws = FakeWebSocket(messages)
+    try: 
+        async with aiosqlite.connect(Config.database_file_path) as db:
+            await db.executescript(database.SCHEMA)
+            await db.commit()
 
         await interface.recieve_data(fake_ws, db)
 
