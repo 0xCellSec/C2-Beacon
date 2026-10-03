@@ -61,7 +61,7 @@ async def test_registry():
             await db.executescript(database.SCHEMA)
             await db.commit()
 
-        await interface.recieve_data(fake_ws, db)
+            await interface.recieve_data(fake_ws, db)
 
 if __name__ == '__main__':
     asyncio.run(test_registry())
