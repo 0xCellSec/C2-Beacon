@@ -63,5 +63,18 @@ async def test_registry():
 
             await interface.recieve_data(fake_ws, db)
 
+            id  = fake_ws.sent_messages
+
+            await asyncio.sleep(5)
+            heartbeat_message = encoding.encode(json.dumps({'type': 'HEARTBEAT', 
+                                                                'payload': {'agent_id' : str(id[0]), 
+                                                                            'first_seen': '',
+                                                                            'last_seen': ''}}), Config.encryption_key)
+
+            messages.append(heartbeat_message)
+            await interface.recieve_data(fake_ws, db )
+    except (IndexError) as err:
+        print(f"ERROR: {err}") 
+
 if __name__ == '__main__':
     asyncio.run(test_registry())
