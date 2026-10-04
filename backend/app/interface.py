@@ -4,7 +4,7 @@ from app.core.settings import Config
 from app.core.protocol import pack_json, unpack_json, MessageType
 from app.handler.registry import BeaconRegistry 
 from app.handler.heartbeat import BeaconHeartbeat
-from app.core.models import BeaconMeta, BeaconLog
+import app.core.models as model
 from . import database
 
 
@@ -18,11 +18,11 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
 
         # Message type checking 
         if data.type == MessageType.REGISTER: 
-            validated_beacon_model = BeaconMeta.model_validate(data.payload)
+            validated_beacon_model = model.BeaconMeta.model_validate(data.payload)
             await registry.register(validated_beacon_model, database, websocket)
 
         elif data.type == MessageType.HEARTBEAT:
-            validated_beacon_model = BeaconLog.model_validate(data.payload)
+            validated_beacon_model = model.BeaconLog.model_validate(data.payload)
             await heartbeat.record_heartbeat(validated_beacon_model, database)
         
 
