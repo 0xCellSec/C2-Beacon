@@ -60,6 +60,7 @@ class BeaconRegistry:
         )
 
         await database.commit()
+        websocket.send_text(beacon_id)
 
     async def unregister(self, id: str, database: aiosqlite.Connection) -> None:
         # remove log from memory
