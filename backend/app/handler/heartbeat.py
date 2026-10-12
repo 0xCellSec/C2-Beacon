@@ -1,5 +1,5 @@
 from datetime import UTC, datetime
-from fastapi import WebSocket
+
 
 import aiosqlite
 
