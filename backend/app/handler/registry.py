@@ -25,10 +25,11 @@ class BeaconRegistry:
         websocket (websocket): the websocket the beacon sends the data through 
         """
 
-        await websocket.accept()
         print("Beacon Found!")
 
-        beacon_id = str(uuid.uuid4())
+        salt = uuid.UUID("bf38d046-7432-4e5c-bdb0-8e70b840b9fd")
+        fingerprint = f'{meta.hostname}-{meta.username}'
+        beacon_id = str(uuid.uuid5(salt, fingerprint))
         
         # keep a memory websocket log
         self._connections[beacon_id] = websocket
@@ -60,7 +61,7 @@ class BeaconRegistry:
         )
 
         await database.commit()
-        websocket.send_text(beacon_id)
+        await websocket.send_text(beacon_id)
 
     async def unregister(self, id: str, database: aiosqlite.Connection) -> None:
         # remove log from memory
