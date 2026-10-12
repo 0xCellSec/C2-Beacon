@@ -3,18 +3,18 @@ from fastapi import WebSocket
 
 import aiosqlite
 
-from app.core.models import BeaconLog
+from app.core.models import BeaconHeartbeat
 
 
 class BeaconHeartbeat:
 
     async def record_heartbeat(
         self,
-        log: BeaconLog, 
+        log: BeaconHeartbeat, 
         database: aiosqlite.Connection,
     ) -> None:
         
-        beacon_id = log.agent_id
+        beacon_id = log.beacon_id
         current_time = datetime.now(UTC).isoformat()
 
 
