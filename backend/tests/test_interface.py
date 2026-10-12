@@ -1,7 +1,5 @@
 # importing project py modules 
 from app import interface, database
-from app.core import models
-import asyncio
 import aiosqlite
 from app.core import encoding
 from app.core.settings import Config
@@ -10,8 +8,6 @@ from app.core.settings import Config
 import json
 import os # this is the library the beacon will use to find the hardware/ip data
 import socket # netowrking library to find ip
-import time
-from datetime import UTC, datetime
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from fastapi import WebSocket
