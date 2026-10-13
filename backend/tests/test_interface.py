@@ -65,8 +65,7 @@ def test_registry():
         print(f"test_interface: {str(id)}")
 
         heartbeat_message = encoding.encode(json.dumps({'type': 'HEARTBEAT', 
-                                                        'payload': {'agent_id' : str(id), 
-                                                                    'first_seen': '',
+                                                        'payload': {'beacon_id' : str(id), 
                                                                     'last_seen': ''}}), Config.encryption_key)
             
         websocket.send_text(heartbeat_message)
