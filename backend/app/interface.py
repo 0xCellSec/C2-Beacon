@@ -25,6 +25,6 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
             await registry.register(validated_beacon_model, database, websocket)
 
         elif data.type == MessageType.HEARTBEAT:
-            validated_beacon_model = model.BeaconLog.model_validate(data.payload)
+            validated_beacon_model = model.BeaconHeartbeat.model_validate(data.payload)
             await heartbeat.record_heartbeat(validated_beacon_model, database)
             await task.send_task(validated_beacon_model, websocket, database)
