@@ -13,7 +13,7 @@ class Task():
         
         rows = await database.execute_fetchall("""
                     SELECT * FROM tasks
-                    WHERE task_id  = ? 
+                    WHERE beacon_id  = ? 
                     """, (str(data.beacon_id), )
                     )
         await database.close()
