@@ -1,6 +1,8 @@
 # importing project py modules 
 from app import interface, database
 import aiosqlite
+
+from app.core.protocol import pack_json, unpack_json, Message, MessageType
 from app.core import encoding
 from app.core.settings import Config
 
@@ -51,27 +53,26 @@ def test_registry():
     private_ip = get_priv_ip()
 
     with client.websocket_connect("/ws") as websocket:
-        register_message = encoding.encode(json.dumps({'type': 'REGISTER', 
-                                                                          'payload':{'os':str(operating.sysname), 
+        register_data = Message(type=MessageType.REGISTER, payload={'os':str(operating.sysname), 
                                                                                       'hostname':str(operating.nodename), 
                                                                                       'username': host_username, 
                                                                                       'pid': host_pid, 
-                                                                                      'internal_ip': private_ip}
-                                                                                      }), Config.encryption_key)
+                                                                                      'internal_ip': private_ip})
+        register_message = pack_json(register_data, Config.encryption_key)
 
         websocket.send_text(register_message)
 
         id = websocket.receive_text()
-        print(f"test_interface: {str(id)}")
+        print(f"SERVER ID RESPONSE: {str(id)}")
 
-        heartbeat_message = encoding.encode(json.dumps({'type': 'HEARTBEAT', 
-                                                        'payload': {'beacon_id' : str(id), 
-                                                                    'last_seen': ''}}), Config.encryption_key)
+        heartbeat_data = Message(type=MessageType.HEARTBEAT, payload={'beacon_id' : str(id), 
+                                                                    'last_seen':  ''})
+        heartbeat_message = pack_json(heartbeat_data, Config.encryption_key)
             
         websocket.send_text(heartbeat_message)
         tasks = websocket.receive_text()
 
-        print(tasks)
+        print(f"SERVER TASK RESPONSE: {tasks}")
         websocket.close()
         
                                
