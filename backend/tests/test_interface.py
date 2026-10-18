@@ -84,9 +84,13 @@ async def test_registry():
         
         websocket.close()
         
-                               
-          
-        
+def run_server():
+     uvicorn.run(app, host = "127.0.0.1", port = 8000, log_level="warning")
+
 
 if __name__ == '__main__':
-    test_registry()
+    server = Process(target=run_server, daemon=True)
+    server.start()
+
+    time.sleep(2)
+    asyncio.run(test_registry())
