@@ -4,7 +4,7 @@ from fastapi import WebSocket
 import aiosqlite
 import uuid
 
-from app.core.models import BeaconMeta, BeaconLog
+from app.core.models import BeaconMeta
 
 
 class BeaconRegistry:
