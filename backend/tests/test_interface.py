@@ -4,8 +4,8 @@ import aiosqlite
 import asyncio
 
 from app.core.protocol import pack_json, unpack_json, Message, MessageType
-from app.core import encoding
 from app.core.settings import Config
+from beacon.task import Tasking
 
 # importing pythin lib
 import json
