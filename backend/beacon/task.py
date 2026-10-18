@@ -1,26 +1,21 @@
 from fastapi import WebSocket
 import subprocess
-import ast
+import json
 
-from app.core.protocol import Message, MessageType, pack_json
-from app.core.settings import Config
+from backend.app.core.protocol import Message, MessageType, pack_json
+
 
 
 class Tasking():
     
     async def respond_result(command: list, websocket: WebSocket) -> None:
-        commands = ast.literal_eval(commands)
-        for command in commands:
-            print(f"COMMAND:{command, type(commands)}\n")
-            raw_command = command[3]
+        for i in len(command):
+            raw_command = command[i][1]
             executed = subprocess.run(raw_command, capture_output=True)
 
-            response = Message(type=MessageType.RESULT, payload={'output': executed.stdout, 'error': executed.stderr})
+            response = Message(type=MessageType.RESULT, payload={executed.stdout})
 
-            data = pack_json(response, Config.encryption_key)
-            print(type(data), data)
-            print(f"COMMAND EXECUTION RESPONSE: {response}")
-            await websocket.send(data)
+            data = pack_json(response)
+            await websocket.send_text(data)
 
-        await websocket.close()
     
