@@ -93,4 +93,4 @@ if __name__ == '__main__':
     server.start()
 
     time.sleep(2)
-    asyncio.run(test_registry())
+    asyncio.run(mock_client())
