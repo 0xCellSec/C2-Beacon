@@ -43,6 +43,7 @@ class TaskRecord(BaseModel):
 
 
 class TaskResult(BaseModel):
+    task_id: str
     output: str | None = None
     error: str | None = None
     created_at: str = Field(default_factory = lambda: datetime.now(UTC).isoformat())
