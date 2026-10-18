@@ -79,6 +79,9 @@ async def test_registry():
         await websocket.send(heartbeat_message)
         tasks = await websocket.recv()
         print(f"SERVER TASK RESPONSE: {tasks}")
+
+        await Tasking.respond_result(tasks, websocket)
+        
         websocket.close()
         
                                
