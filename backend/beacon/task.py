@@ -1,8 +1,9 @@
 from fastapi import WebSocket
 import subprocess
-import json
+import ast
 
-from backend.app.core.protocol import Message, MessageType, pack_json
+from app.core.protocol import Message, MessageType, pack_json
+from app.core.settings import Config
 
 
 
