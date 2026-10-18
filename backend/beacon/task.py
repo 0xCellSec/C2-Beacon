@@ -9,7 +9,7 @@ from app.core.settings import Config
 
 class Tasking():
     
-    async def respond_result(command: list, websocket: WebSocket) -> None:
+    async def respond_result(commands: list, websocket: WebSocket) -> None:
         commands = ast.literal_eval(commands)
         for command in commands:
             print(f"COMMAND:{command, type(commands)}\n")
