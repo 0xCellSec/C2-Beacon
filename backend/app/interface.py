@@ -18,7 +18,7 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
 
         data = unpack_json(raw_data, Config.encryption_key)
 
-        print(f"interface data: {data.type}")
+        print(f"interface data type: {data.type}")
         # Message type checking 
         if data.type == MessageType.REGISTER: 
             validated_beacon_model = model.BeaconMeta.model_validate(data.payload)
@@ -28,3 +28,6 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
             validated_beacon_model = model.BeaconHeartbeat.model_validate(data.payload)
             await heartbeat.record_heartbeat(validated_beacon_model, database)
             await task.send_task(validated_beacon_model, websocket, database)
+
+        elif data.type == MessageType.RESULT:
+            pass
