@@ -49,7 +49,7 @@ async def endpoint(websocket: WebSocket):
         await websocket.close()
 
 
-async def test_registry():
+async def mock_client():
 
     URI = "ws://127.0.0.1:8000/ws"
 
