@@ -49,7 +49,9 @@ async def endpoint(websocket: WebSocket):
         await websocket.close()
 
 
-def test_registry():
+async def test_registry():
+
+    URI = "ws://127.0.0.1:8000/ws"
 
     # get host data
     operating = os.uname()
@@ -57,7 +59,7 @@ def test_registry():
     host_username = str(os.getlogin())
     private_ip = get_priv_ip()
 
-    with client.websocket_connect("/ws") as websocket:
+    async with websockets.connect(URI) as websocket:
         register_data = Message(type=MessageType.REGISTER, payload={'os':str(operating.sysname), 
                                                                                       'hostname':str(operating.nodename), 
                                                                                       'username': host_username, 
@@ -65,18 +67,17 @@ def test_registry():
                                                                                       'internal_ip': private_ip})
         register_message = pack_json(register_data, Config.encryption_key)
 
-        websocket.send_text(register_message)
+        await websocket.send(register_message)
 
-        id = websocket.receive_text()
-        print(f"SERVER ID RESPONSE: {str(id)}")
+        id = await websocket.recv()
+        print(f"SERVER ID RESPONSE: {str(id)}\n")
 
         heartbeat_data = Message(type=MessageType.HEARTBEAT, payload={'beacon_id' : str(id), 
                                                                     'last_seen':  ''})
         heartbeat_message = pack_json(heartbeat_data, Config.encryption_key)
             
-        websocket.send_text(heartbeat_message)
-        tasks = websocket.receive_text()
-
+        await websocket.send(heartbeat_message)
+        tasks = await websocket.recv()
         print(f"SERVER TASK RESPONSE: {tasks}")
         websocket.close()
         
