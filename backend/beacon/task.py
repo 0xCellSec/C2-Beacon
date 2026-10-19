@@ -23,6 +23,4 @@ class Tasking():
             print(f"COMMAND EXECUTION RESPONSE: {response}")
             await websocket.send(data)
 
-        await websocket.close()
-
     
