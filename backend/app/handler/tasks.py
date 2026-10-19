@@ -16,7 +16,7 @@ class Task():
                     WHERE beacon_id  = ? 
                     """, (str(data.beacon_id), )
                     )
-        await database.close()
+        
 
         await websocket.send_text(str(rows))
         
