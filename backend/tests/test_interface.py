@@ -60,6 +60,7 @@ async def mock_client():
     private_ip = get_priv_ip()
 
     async with websockets.connect(URI) as websocket:
+        # section packs and sends register message
         register_data = Message(type=MessageType.REGISTER, payload={'os':str(operating.sysname), 
                                                                                       'hostname':str(operating.nodename), 
                                                                                       'username': host_username, 
@@ -72,6 +73,7 @@ async def mock_client():
         id = await websocket.recv()
         print(f"SERVER ID RESPONSE: {str(id)}\n")
 
+        # section packs and sends a heartbeat message
         heartbeat_data = Message(type=MessageType.HEARTBEAT, payload={'beacon_id' : str(id), 
                                                                     'last_seen':  ''})
         heartbeat_message = pack_json(heartbeat_data, Config.encryption_key)
@@ -80,9 +82,10 @@ async def mock_client():
         tasks = await websocket.recv()
         print(f"SERVER TASK RESPONSE: {tasks}")
 
+        # function handles task execution and then sends the results to the server
         await Tasking.respond_result(tasks, websocket)
         
-        websocket.close()
+        await websocket.close()
         
 def run_server():
      uvicorn.run(app, host = "127.0.0.1", port = 8000, log_level="warning")
