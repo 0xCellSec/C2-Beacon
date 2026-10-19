@@ -5,6 +5,7 @@ from app.core.protocol import pack_json, unpack_json, MessageType
 from app.handler.registry import BeaconRegistry 
 from app.handler.heartbeat import BeaconHeartbeat
 from app.handler.tasks import Task
+from app.handler.result import ServerResults
 import app.core.models as model
 from . import database
 
@@ -13,6 +14,7 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
     registry = BeaconRegistry()
     heartbeat = BeaconHeartbeat()
     task = Task()
+    result = ServerResults()
     while True: 
         raw_data = await websocket.receive_text()
 
@@ -30,4 +32,5 @@ async def recieve_data(websocket: WebSocket, database: database) -> None:
             await task.send_task(validated_beacon_model, websocket, database)
 
         elif data.type == MessageType.RESULT:
-            pass
+            validated_beacon_model = model.TaskResult.model_validate(data.payload)
+            await result.log_task_result(validated_beacon_model, database, websocket)
