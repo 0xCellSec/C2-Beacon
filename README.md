@@ -4,7 +4,8 @@
 This project is created for educational purposes and authorized testing only. It doe not contain trustworthy evasion techniques, obfuscation, or exploit payloads. 
 
 ## what is it?
-C2-Beacon is a minimal python-based, cybersecurity tool to recreate the basic functions and architecture of a command-and-control beacon.
+Its is a python based, Educational Remote Access Tool (RAT) command and Control beacon.
+ - a command and control beacon (C2-beacon) is a malicious tool that allows an attacker (hacker) to recieve information from and send instructions to the compromised device.
 
 ## why did I build it? 
 I built this project so I can better understand the make-up of a c2-beacon and to better visualize what a beacon and server does behind the curtains. 
